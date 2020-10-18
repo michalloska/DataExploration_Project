@@ -6,4 +6,6 @@ co2emissionsData    = LoadDataFromCsv([datasetsLocation colon 'co2_emissions_ton
 hivData             = LoadDataFromCsv([datasetsLocation colon 'people_living_with_hiv_number_all_ages.csv']);
 populationData      = LoadDataFromCsv([datasetsLocation colon 'population_total.csv']);
 
-corellation = CalculateCorrelation(coalConsumptionData, hivData);
+[coalConsumptionDataUnified hivDataUnified] = UnifyDatasets(coalConsumptionData, hivData, true);
+
+corellation = CalculateCorrelation(coalConsumptionDataUnified, hivDataUnified);
