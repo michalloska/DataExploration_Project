@@ -1,11 +1,15 @@
+clear
+clc
+
 datasetsLocation = 'datasets';
 colon = '/'; % OS compatibility
+prefix = [datasetsLocation colon];
 
-coalConsumptionData = LoadDataFromCsv([datasetsLocation colon 'coal_consumption_total.csv']);
-co2emissionsData    = LoadDataFromCsv([datasetsLocation colon 'co2_emissions_tonnes_per_person.csv']);
-hivData             = LoadDataFromCsv([datasetsLocation colon 'people_living_with_hiv_number_all_ages.csv']);
-populationData      = LoadDataFromCsv([datasetsLocation colon 'population_total.csv']);
+coalConsumptionData = LoadDataFromCsv([prefix 'coal_consumption_total.csv']);
+co2emissionsData    = LoadDataFromCsv([prefix 'co2_emissions_tonnes_per_person.csv']);
+hivData             = LoadDataFromCsv([prefix 'people_living_with_hiv_number_all_ages.csv']);
+populationData      = LoadDataFromCsv([prefix 'population_total.csv']);
 
 [coalConsumptionDataUnified hivDataUnified] = UnifyDatasets(coalConsumptionData, hivData, true);
 
-corellation = CalculateCorrelation(coalConsumptionDataUnified, hivDataUnified);
+% corellation = CalculateCorrelation(coalConsumptionDataUnified, hivDataUnified);
