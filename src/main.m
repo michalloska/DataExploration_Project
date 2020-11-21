@@ -5,6 +5,7 @@ clc
 clear
 
 carEmissionsDatasetPath = '../data/carEmissions.csv';
-
 carEmissionsDataset = readtable(carEmissionsDatasetPath);
 
+allPetrolCars = GetCarsByFuelType('Petrol', carEmissionsDataset);
+allDieselCars = GetCarsByFuelType('Diesel', carEmissionsDataset);
