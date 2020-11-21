@@ -4,6 +4,6 @@
 clc
 clear
 
-carEmissionsDatasetPath = 'data/carEmissions.csv';
+carEmissionsDatasetPath = '../data/carEmissions.csv';
 
-covidData = readtable(carEmissionsDatasetPath);
+carEmissionsDataset = readtable(carEmissionsDatasetPath);
