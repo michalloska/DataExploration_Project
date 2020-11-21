@@ -17,21 +17,21 @@ allDieselManualCars = GetCarsByFuelType('Diesel', allManualCars);
 
 
 histogram(allPetrolAutomaticCars.engine_capacity, [50:100:5000]);
-title('all petrol automatic cars');
-xlabel('Engine Capcity [L]');
+title('Petrol automatic cars');
+xlabel('Engine Capcity [cm^3]');
 ylabel('Amount of Cars');
 figure
 histogram(allDieselAutomaticCars.engine_capacity, [50:100:5000]);
-title('all diesel automatic cars');
-xlabel('Engine Capcity [L]');
+title('Diesel automatic cars');
+xlabel('Engine Capcity [cm^3]');
 ylabel('Amount of Cars');
 figure
 histogram(allPetrolManualCars.engine_capacity, [50:100:5000]);
-title('all petrol manual cars');
-xlabel('Engine Capcity [L]');
+title('Petrol manual cars');
+xlabel('Engine Capcity [cm^3]');
 ylabel('Amount of Cars');
 figure
 histogram(allDieselManualCars.engine_capacity, [50:100:5000]);
-title('all diesel manual cars');
-xlabel('Engine Capcity [L]');
+title('Diesel manual cars');
+xlabel('Engine Capcity [cm^3]');
 ylabel('Amount of Cars');
