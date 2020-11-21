@@ -8,3 +8,4 @@ carEmissionsDatasetPath = '../data/carEmissions.csv';
 
 carEmissionsDataset = readtable(carEmissionsDatasetPath);
 
+removeTransiossionType(carEmissionsDataset, 'Automatic');
