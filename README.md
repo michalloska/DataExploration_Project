@@ -8,7 +8,7 @@
 * **Adrian Wysocki** - [theratty](https://github.com/theratty)
 * **Michał Loska** - [michalloska](https://github.com/michalloska)
 
-##TODO
+## TODO
 
 * Ktore samochody sa eko
 * jak pojemnosc wplywa na zanieczyszczenia
