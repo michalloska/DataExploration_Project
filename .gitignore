@@ -3,7 +3,7 @@
 .vscode
 
 # temp matlab files
-.asv
+*.asv
 
 
 ### OSX ###
