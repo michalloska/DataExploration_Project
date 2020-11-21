@@ -7,10 +7,11 @@ clear
 carEmissionsDatasetPath = '../data/carEmissions.csv';
 carEmissionsDataset = readtable(carEmissionsDatasetPath);
 
-allAutomaticCars = removeTransiossionType(carEmissionsDataset, 'Manual');
-allManualCars = removeTransiossionType(carEmissionsDataset, 'Automatic');
+allAutomaticCars = GetTransmissionType(carEmissionsDataset, 'Automatic');
+allManualCars = GetTransmissionType(carEmissionsDataset, 'Manual');
 
 allPetrolAutomaticCars = GetCarsByFuelType('Petrol', allAutomaticCars);
 allDieselAutomaticCars = GetCarsByFuelType('Diesel', allAutomaticCars);
 allPetrolManualCars = GetCarsByFuelType('Petrol', allManualCars);
 allDieselManualCars = GetCarsByFuelType('Diesel', allManualCars);
+
