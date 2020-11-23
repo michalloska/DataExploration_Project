@@ -7,24 +7,15 @@ function averageEmissions = GetAverageEmissionsForEngineSizes(dataset, engineCap
 
         % TODO:
         % Improve removal of outliers or implement from scratch for filteredEngineCapacityCars
-        % IMPERFECT SOLUTION:
-        [filteredOutliers, RemovedIndices] = rmoutliers(filteredEngineCapacityCars.co_emissions, 'median');
 
-        if size(RemovedIndices,1) ~= 0 && any( RemovedIndices(:,1) == 1 )
-            filteredEngineCapacityCars = removeOutliersFromCoEmissions(filteredEngineCapacityCars, RemovedIndices);
-        end
+        % IMPERFECT SOLUTION:
+        filteredEngineCapacityCars = RemoveOutliersFromCoEmissions(filteredEngineCapacityCars, 'mean');
         % ------------------------------------------------------------------
+        % REMOVING DATA FOR WHICH THE CO_EMISSION IS > 1000
+        % filteredEngineCapacityCars = filteredEngineCapacityCars(filteredEngineCapacityCars.co_emissions <= 1000, :);
+
         averageEmissions(engineCapacity,2) = mean(engineCapacityRange(engineCapacity:engineCapacity+1));
         averageEmissions(engineCapacity,1) = mean(filteredEngineCapacityCars.co_emissions);
 
     end
-end
-
-function filteredData = removeOutliersFromCoEmissions(dataset, indices)
-    for row = 1:length(indices)
-        if indices(row) == 1
-            dataset.co_emissions(row) = NaN;
-        end
-    end
-    filteredData = dataset;
 end

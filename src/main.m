@@ -16,6 +16,23 @@ allDieselAutomaticCars = GetCarsByFuelType('Diesel', allAutomaticCars);
 allPetrolManualCars    = GetCarsByFuelType('Petrol', allManualCars);
 allDieselManualCars    = GetCarsByFuelType('Diesel', allManualCars);
 
+
+% SORT BY CO EMISSIONS
+% co_emissions_column_number = 21;
+% 
+% allPetrolAutomaticCars = sortrows(allPetrolAutomaticCars, co_emissions_column_number);
+% allDieselAutomaticCars = sortrows(allDieselAutomaticCars, co_emissions_column_number);
+% allPetrolManualCars    = sortrows(allPetrolManualCars, co_emissions_column_number);
+% allDieselManualCars    = sortrows(allDieselManualCars, co_emissions_column_number);
+
+% REMOVE OUTLIERS FROM THE WHOLE SET
+% modelMethod = 'median';
+
+% allPetrolAutomaticCars = RemoveOutliersFromCoEmissions(allPetrolAutomaticCars, modelMethod);
+% allDieselAutomaticCars = RemoveOutliersFromCoEmissions(allDieselAutomaticCars, modelMethod);
+% allPetrolManualCars    = RemoveOutliersFromCoEmissions(allPetrolManualCars, modelMethod);
+% allDieselManualCars    = RemoveOutliersFromCoEmissions(allDieselManualCars, modelMethod);
+
 engineCapacityRange = [50:100:5000];
 
 figure(1);
@@ -51,8 +68,9 @@ allCars = [averageEmissionsPetrolAutomatic(:,1)';...
            averageEmissionsDieselManual(:,1)'];
 
 figure(6);
-plot(averageEmissionsPetrolAutomatic(:,2)', allCars);
+plot(averageEmissionsDieselAutomatic(:,2)', allCars);
 title('Average emissions for engine capacities');
+ylim([0 1000])
 xlabel('Engine Capcity [cm^3]');
 ylabel('co emissions');
 legend(["Petrol Automatic",...
