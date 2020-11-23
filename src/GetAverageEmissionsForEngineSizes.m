@@ -6,12 +6,25 @@ function averageEmissions = GetAverageEmissionsForEngineSizes(dataset, engineCap
         filteredEngineCapacityCars = lowerBound(lowerBound.engine_capacity <= engineCapacityRange(engineCapacity+1), :);
 
         % TODO:
-        % ADD VALIDATION FOR ATYPICAL ELEMETNS IN filteredEngineCapacityCars
-        % TEMPORARY SOLUTION:
-        filteredEngineCapacityCars = filteredEngineCapacityCars(filteredEngineCapacityCars.co_emissions <= 3000, :);
+        % Improve removal of outliers or implement from scratch for filteredEngineCapacityCars
+        % IMPERFECT SOLUTION:
+        [filteredOutliers, RemovedIndices] = rmoutliers(filteredEngineCapacityCars.co_emissions, 'median');
+
+        if size(RemovedIndices,1) ~= 0 && any( RemovedIndices(:,1) == 1 )
+            filteredEngineCapacityCars = removeOutliersFromCoEmissions(filteredEngineCapacityCars, RemovedIndices);
+        end
         % ------------------------------------------------------------------
         averageEmissions(engineCapacity,2) = mean(engineCapacityRange(engineCapacity:engineCapacity+1));
         averageEmissions(engineCapacity,1) = mean(filteredEngineCapacityCars.co_emissions);
 
     end
+end
+
+function filteredData = removeOutliersFromCoEmissions(dataset, indices)
+    for row = 1:length(indices)
+        if indices(row) == 1
+            dataset.co_emissions(row) = NaN;
+        end
+    end
+    filteredData = dataset;
 end
