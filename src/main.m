@@ -4,6 +4,7 @@
 
 clc
 clear
+clf
 
 carEmissionsDatasetPath = '../data/carEmissions.csv';
 carEmissionsDataset = readtable(carEmissionsDatasetPath);
@@ -19,7 +20,7 @@ allDieselManualCars    = GetCarsByFuelType('Diesel', allManualCars);
 
 % SORT BY CO EMISSIONS
 % co_emissions_column_number = 21;
-% 
+%
 % allPetrolAutomaticCars = sortrows(allPetrolAutomaticCars, co_emissions_column_number);
 % allDieselAutomaticCars = sortrows(allDieselAutomaticCars, co_emissions_column_number);
 % allPetrolManualCars    = sortrows(allPetrolManualCars, co_emissions_column_number);
@@ -57,20 +58,103 @@ xlabel('Engine Capcity [cm^3]');
 ylabel('Amount of Cars');
 
 
-averageEmissionsPetrolAutomatic = GetAverageEmissionsForEngineSizes(allPetrolAutomaticCars, engineCapacityRange);
-averageEmissionsDieselAutomatic = GetAverageEmissionsForEngineSizes(allDieselAutomaticCars, engineCapacityRange);
-averageEmissionsPetrolManual    = GetAverageEmissionsForEngineSizes(allPetrolManualCars, engineCapacityRange);
-averageEmissionsDieselManual    = GetAverageEmissionsForEngineSizes(allDieselManualCars, engineCapacityRange);
+PetrolAutomaticData = GetEmissionStatisticDataForEngineSize(allPetrolAutomaticCars, engineCapacityRange);
+DieselAutomaticData = GetEmissionStatisticDataForEngineSize(allDieselAutomaticCars, engineCapacityRange);
+PetrolManualData    = GetEmissionStatisticDataForEngineSize(allPetrolManualCars, engineCapacityRange);
+DieselManualData    = GetEmissionStatisticDataForEngineSize(allDieselManualCars, engineCapacityRange);
 
-allCars = [averageEmissionsPetrolAutomatic(:,1)';...
-           averageEmissionsDieselAutomatic(:,1)';...
-           averageEmissionsPetrolManual(:,1)';...
-           averageEmissionsDieselManual(:,1)'];
+allCars = [PetrolAutomaticData.avgCoEmissionPerEngSize(:,1)';...
+           DieselAutomaticData.avgCoEmissionPerEngSize(:,1)';...
+           PetrolManualData.avgCoEmissionPerEngSize(:,1)';...
+           DieselManualData.avgCoEmissionPerEngSize(:,1)'];
 
 figure(6);
-plot(averageEmissionsDieselAutomatic(:,2)', allCars);
-title('Average emissions for engine capacities');
-ylim([0 1000])
+hold on;
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), allCars);
+title('Average emissions for engine capacities with Outliers');
+% ylim([0 1000])
+xlabel('Engine Capcity [cm^3]');
+ylabel('co emissions');
+legend(["Petrol Automatic",...
+        "Diesel Automatic",...
+        "Petrol Manual",...
+        "Diesel Manual"
+        ])
+hold off;
+
+figure(7);
+hold on;
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), PetrolAutomaticData.avgCoEmissionPerEngSize(:,1)');
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), PetrolAutomaticData.filteredData(:,1)');
+plot(xlim, [1 1]*PetrolAutomaticData.mean, '--k')
+plot(xlim, [1 1]*PetrolAutomaticData.mean-PetrolAutomaticData.stdFiltered*3, '--k')
+plot(xlim, [1 1]*PetrolAutomaticData.mean+PetrolAutomaticData.stdFiltered*3, '--k')
+title('Average emissions for Petrol Automatic');
+xlabel('Engine Capcity [cm^3]');
+ylabel('co emissions');
+legend(["Petrol Automatic",...
+        "Petrol Automatic No Outliers"
+        ])
+hold off;
+
+figure(8);
+hold on;
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), DieselAutomaticData.avgCoEmissionPerEngSize(:,1)');
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), DieselAutomaticData.filteredData(:,1)');
+plot(xlim, [1 1]*DieselAutomaticData.mean, '--k')
+plot(xlim, [1 1]*DieselAutomaticData.mean-DieselAutomaticData.stdFiltered*3, '--k')
+plot(xlim, [1 1]*DieselAutomaticData.mean+DieselAutomaticData.stdFiltered*3, '--k')
+title('Average emissions for Diesel Automatic');
+xlabel('Engine Capcity [cm^3]');
+ylabel('co emissions');
+legend(["Diesel Automatic",...
+        "Diesel Automatic No Outliers"
+        ])
+hold off;
+
+allCarsNoOutliers = [PetrolAutomaticData.filteredData(:,1)';...
+                     DieselAutomaticData.filteredData(:,1)';...
+                     PetrolManualData.filteredData(:,1)';...
+                     DieselManualData.filteredData(:,1)'];
+
+figure(9);
+hold on;
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), PetrolManualData.avgCoEmissionPerEngSize(:,1)');
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), PetrolManualData.filteredData(:,1)');
+plot(xlim, [1 1]*PetrolManualData.mean, '--k')
+plot(xlim, [1 1]*PetrolManualData.mean-PetrolManualData.stdFiltered*3, '--k')
+plot(xlim, [1 1]*PetrolManualData.mean+PetrolManualData.stdFiltered*3, '--k')
+title('Average emissions for Petrol Manual');
+xlabel('Engine Capcity [cm^3]');
+ylabel('co emissions');
+legend(["Petrol Manual",...
+        "Petrol Manual No Outliers"
+        ])
+hold off;
+
+figure(10);
+hold on;
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), DieselManualData.avgCoEmissionPerEngSize(:,1)');
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), DieselManualData.filteredData(:,1)');
+plot(xlim, [1 1]*DieselManualData.mean, '--k')
+plot(xlim, [1 1]*DieselManualData.mean-DieselManualData.stdFiltered*3, '--k')
+plot(xlim, [1 1]*DieselManualData.mean+DieselManualData.stdFiltered*3, '--k')
+title('Average emissions for Diesel Manual');
+xlabel('Engine Capcity [cm^3]');
+ylabel('co emissions');
+legend(["Diesel Manual",...
+        "Diesel Manual No Outliers"
+        ])
+hold off;
+
+allCarsNoOutliers = [PetrolAutomaticData.filteredData(:,1)';...
+                     DieselAutomaticData.filteredData(:,1)';...
+                     PetrolManualData.filteredData(:,1)';...
+                     DieselManualData.filteredData(:,1)'];
+
+figure(11);
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), allCarsNoOutliers);
+title('Average emissions for engine capacities without Outliers');
 xlabel('Engine Capcity [cm^3]');
 ylabel('co emissions');
 legend(["Petrol Automatic",...
