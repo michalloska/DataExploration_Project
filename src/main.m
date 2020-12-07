@@ -72,7 +72,6 @@ figure(6);
 hold on;
 plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), allCars);
 title('Average emissions for engine capacities with Outliers');
-% ylim([0 1000])
 xlabel('Engine Capcity [cm^3]');
 ylabel('co emissions');
 legend(["Petrol Automatic",...
@@ -161,4 +160,37 @@ legend(["Petrol Automatic",...
         "Diesel Automatic",...
         "Petrol Manual",...
         "Diesel Manual"])
+
+
+germanCars   = ["Audi", "BMW", "Volkswagen", "Mercedes-Benz", "Skoda", "Seat"]
+frenchCars   = ["Peugeot", "Citroen", "Renault"]
+japaneseCars = ["Nissan", "Mitsubishi", "Suzuki", "Toyota", "Mazda", "Honda"]
+italianCars  = ["Fiat", "Alfa Romeo"]
+
+germanCarsData = GetDataByCarBrand(carEmissionsDataset, germanCars);
+germanCarsDataStatistics = GetEmissionStatisticDataForEngineSize(germanCarsData, engineCapacityRange);
+
+frenchCarsData = GetDataByCarBrand(carEmissionsDataset, frenchCars);
+frenchCarsDataStatistics = GetEmissionStatisticDataForEngineSize(frenchCarsData, engineCapacityRange);
+
+japaneseCarsData = GetDataByCarBrand(carEmissionsDataset, japaneseCars);
+japaneseCarsDataStatistics = GetEmissionStatisticDataForEngineSize(japaneseCarsData, engineCapacityRange);
+
+italianCarsData = GetDataByCarBrand(carEmissionsDataset, italianCars);
+italianCarsDataStatistics = GetEmissionStatisticDataForEngineSize(italianCarsData, engineCapacityRange);
+
+figure(12);
+hold on;
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), germanCarsDataStatistics.filteredData(:,1)');
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), frenchCarsDataStatistics.filteredData(:,1)');
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), japaneseCarsDataStatistics.filteredData(:,1)');
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), italianCarsDataStatistics.filteredData(:,1)');
+title('Average emissions for different Countries');
+xlabel('Engine Capcity [cm^3]');
+ylabel('co emissions');
+legend(["German Cars",...
+        "French Cars",...
+        "Japanese Cars",...
+        "Italian Cars"])
+hold off;
 
