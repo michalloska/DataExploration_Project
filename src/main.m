@@ -161,7 +161,6 @@ legend(["Petrol Automatic",...
         "Petrol Manual",...
         "Diesel Manual"])
 
-
 germanCars   = ["Audi", "BMW", "Volkswagen", "Mercedes-Benz", "Skoda", "Seat"]
 frenchCars   = ["Peugeot", "Citroen", "Renault"]
 japaneseCars = ["Nissan", "Mitsubishi", "Suzuki", "Toyota", "Mazda", "Honda"]
@@ -194,3 +193,93 @@ legend(["German Cars",...
         "Italian Cars"])
 hold off;
 
+figure(13);
+hold on;
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), germanCarsDataStatistics.filteredData(:,1)');
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), frenchCarsDataStatistics.filteredData(:,1)');
+title('French vs German Cars');
+xlabel('Engine Capcity [cm^3]');
+ylabel('co emissions');
+legend(["German Cars",...
+        "French Cars"])
+hold off;
+
+figure(14);
+hold on;
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), germanCarsDataStatistics.filteredData(:,1)');
+plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), japaneseCarsDataStatistics.filteredData(:,1)');
+title('Japanese vs German Cars');
+xlabel('Engine Capcity [cm^3]');
+ylabel('co emissions');
+legend(["German Cars",...
+        "Japanese Cars"])
+hold off;
+[filteredData emissionData.foundOutliers] = RemoveOutliersFromCoEmissions(carEmissionsDataset, 1);
+[filteredData emissionData.foundOutliers] = RemoveOutliersFromFuelConsumption(filteredData, 1);
+carEmissionsDatasetMatrix = filteredData{:, [10, 12:19]};
+[idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 2);
+figure(15);
+plot(carEmissionsDatasetMatrix(idx==1,1),carEmissionsDatasetMatrix(idx==1,2),'r.','MarkerSize',8)
+hold on
+plot(carEmissionsDatasetMatrix(idx==2,1),carEmissionsDatasetMatrix(idx==2,2),'b.','MarkerSize',8)
+plot(C(:,1),C(:,2),'kx', 'MarkerSize',15,'LineWidth',3)
+legend('Cluster 1','Cluster 2','Centroids',...
+'Location','NW')
+hold off
+
+carEmissionsDatasetMatrix = carEmissionsDataset{:, [12:19]};
+[idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 2);
+figure(16);
+plot(carEmissionsDatasetMatrix(idx==1,1),carEmissionsDatasetMatrix(idx==1,2),'r.','MarkerSize',8)
+hold on
+plot(carEmissionsDatasetMatrix(idx==2,1),carEmissionsDatasetMatrix(idx==2,2),'b.','MarkerSize',8)
+plot(C(:,1),C(:,2),'kx', 'MarkerSize',15,'LineWidth',3)
+legend('Cluster 1','Cluster 2','Centroids',...
+'Location','NW')
+hold off
+
+
+carEmissionsDatasetMatrix = normalize(carEmissionsDataset{:, [10, 14, 21]}, 'range',[0,1]);
+[idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 3);
+figure(17);
+plot(carEmissionsDatasetMatrix(idx==1,1),carEmissionsDatasetMatrix(idx==1,2),'r.','MarkerSize',8)
+hold on
+plot(carEmissionsDatasetMatrix(idx==2,1),carEmissionsDatasetMatrix(idx==2,2),'b.','MarkerSize',8)
+plot(carEmissionsDatasetMatrix(idx==3,1),carEmissionsDatasetMatrix(idx==3,2),'g.','MarkerSize',8)
+title("Engine Size vs Fuel Consumption")
+plot(C(:,1),C(:,2),'kx', 'MarkerSize',15,'LineWidth',3)
+xlabel("Engine Size")
+ylabel("Fuel Consumption")
+legend('Cluster 1','Cluster 2', 'Cluster 3','Centroids',...
+'Location','NW')
+hold off
+
+% carEmissionsDatasetMatrix = normalize(carEmissionsDataset{:, [10, 14, 21]});
+[idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 3);
+figure(18);
+plot(carEmissionsDatasetMatrix(idx==1,1),carEmissionsDatasetMatrix(idx==1,3),'r.','MarkerSize',8)
+hold on
+plot(carEmissionsDatasetMatrix(idx==2,1),carEmissionsDatasetMatrix(idx==2,3),'b.','MarkerSize',8)
+plot(carEmissionsDatasetMatrix(idx==3,1),carEmissionsDatasetMatrix(idx==3,3),'g.','MarkerSize',8)
+title("Engine Size vs CO Emissions")
+plot(C(:,1),C(:,3),'kx', 'MarkerSize',15,'LineWidth',3)
+xlabel("Engine Size")
+ylabel("CO Emissions")
+legend('Cluster 1','Cluster 2', 'Cluster 3','Centroids',...
+'Location','NW')
+hold off
+
+% carEmissionsDatasetMatrix = normalize(carEmissionsDataset{:, [10, 14, 21]});
+[idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 3);
+figure(19);
+plot(carEmissionsDatasetMatrix(idx==1,2),carEmissionsDatasetMatrix(idx==1,3),'r.','MarkerSize',8)
+hold on
+plot(carEmissionsDatasetMatrix(idx==2,2),carEmissionsDatasetMatrix(idx==2,3),'b.','MarkerSize',8)
+plot(carEmissionsDatasetMatrix(idx==3,2),carEmissionsDatasetMatrix(idx==3,3),'g.','MarkerSize',8)
+title("Fuel Consumption vs CO Emissions")
+plot(C(:,2),C(:,3),'kx', 'MarkerSize',15,'LineWidth',3)
+xlabel("Fuel Consumption")
+ylabel("CO Emissions")
+legend('Cluster 1','Cluster 2', 'Cluster 3','Centroids',...
+'Location','NW')
+hold off
