@@ -5,15 +5,16 @@ function emissionData = GetEmissionStatisticDataForEngineSize(dataset, engineCap
     emissionData.mean = mean(dataset{:,co_emissions_column_number}, 'omitnan');
     emissionData.std = std(dataset{:,co_emissions_column_number}, 'omitnan');
 
-    [filteredData emissionData.foundOutliers] = RemoveOutliersFromCoEmissions(dataset, 1);
+    [filteredData emissionData.foundOutliers] = RemoveOutliersFromCoEmissions(dataset, 0);
     emissionData.stdFiltered = std(filteredData{:,co_emissions_column_number}, 'omitnan');
 
     for engineCapacity = 1:length(engineCapacityRange)-1
+        currentEngCap = engineCapacityRange(engineCapacity);
         lowerBound = dataset(dataset.engine_capacity >= engineCapacityRange(engineCapacity), :);
-        filteredEngineCapacityCars = lowerBound(lowerBound.engine_capacity <= engineCapacityRange(engineCapacity+1), :);
+        filteredEngineCapacityCars = lowerBound(lowerBound.engine_capacity < engineCapacityRange(engineCapacity+1), :);
 
         lowerBoundNoOutliers = filteredData(filteredData.engine_capacity >= engineCapacityRange(engineCapacity), :);
-        filteredEngineCapacityCarsNoOutliers = lowerBoundNoOutliers(lowerBoundNoOutliers.engine_capacity <= engineCapacityRange(engineCapacity+1), :);
+        filteredEngineCapacityCarsNoOutliers = lowerBoundNoOutliers(lowerBoundNoOutliers.engine_capacity < engineCapacityRange(engineCapacity+1), :);
 
         emissionData.engineSizes(engineCapacity,2) = mean(engineCapacityRange(engineCapacity:engineCapacity+1), 'omitnan');
         emissionData.avgCoEmissionPerEngSize(engineCapacity,1) = mean(filteredEngineCapacityCars.co_emissions, 'omitnan');

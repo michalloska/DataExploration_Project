@@ -20,7 +20,7 @@ function [filteredData, foundOutliers] = RemoveOutliersFromCoEmissions(dataset, 
                     filteredData{row, co_emissions_column_number} = NaN;
                 end
             else
-                if currentElement > 1500
+                if currentElement > 1200
                     filteredData{row, co_emissions_column_number} = NaN;
                 end
             end
