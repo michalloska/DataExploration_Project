@@ -5,6 +5,8 @@
 # temp matlab files
 *.asv
 
+# python temp files
+*.pyc
 
 ### OSX ###
 .DS_Store
