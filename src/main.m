@@ -9,6 +9,9 @@ clf
 carEmissionsDatasetPath = '../data/carEmissions.csv';
 carEmissionsDataset = readtable(carEmissionsDatasetPath);
 
+[carEmissionsDataset, carEmissionsDataset_badCoEmissons] = RemoveBadDataSamples(carEmissionsDataset, 'co_emissons');
+[carEmissionsDataset, carEmissionsDataset_badFuelConsumption] = RemoveBadDataSamples(carEmissionsDataset, 'fuel_consumption');
+
 allAutomaticCars = GetTransmissionType(carEmissionsDataset, 'Automatic');
 allManualCars    = GetTransmissionType(carEmissionsDataset, 'Manual');
 
@@ -146,11 +149,6 @@ legend(["Diesel Manual",...
         ])
 hold off;
 
-allCarsNoOutliers = [PetrolAutomaticData.filteredData(:,1)';...
-                     DieselAutomaticData.filteredData(:,1)';...
-                     PetrolManualData.filteredData(:,1)';...
-                     DieselManualData.filteredData(:,1)'];
-
 figure(11);
 plot(engineCapacityRange(1,1:length(engineCapacityRange)-1), allCarsNoOutliers);
 title('Average emissions for engine capacities without Outliers');
@@ -161,10 +159,10 @@ legend(["Petrol Automatic",...
         "Petrol Manual",...
         "Diesel Manual"])
 
-germanCars   = ["Audi", "BMW", "Volkswagen", "Mercedes-Benz", "Skoda", "Seat"]
-frenchCars   = ["Peugeot", "Citroen", "Renault"]
-japaneseCars = ["Nissan", "Mitsubishi", "Suzuki", "Toyota", "Mazda", "Honda"]
-italianCars  = ["Fiat", "Alfa Romeo"]
+germanCars   = ["Audi", "BMW", "Volkswagen", "Mercedes-Benz", "Skoda", "Seat"];
+frenchCars   = ["Peugeot", "Citroen", "Renault"];
+japaneseCars = ["Nissan", "Mitsubishi", "Suzuki", "Toyota", "Mazda", "Honda"];
+italianCars  = ["Fiat", "Alfa Romeo"];
 
 germanCarsData = GetDataByCarBrand(carEmissionsDataset, germanCars);
 germanCarsDataStatistics = GetEmissionStatisticDataForEngineSize(germanCarsData, engineCapacityRange);
@@ -214,8 +212,8 @@ ylabel('co emissions');
 legend(["German Cars",...
         "Japanese Cars"])
 hold off;
-[filteredData emissionData.foundOutliers] = RemoveOutliersFromCoEmissions(carEmissionsDataset, 1);
-[filteredData emissionData.foundOutliers] = RemoveOutliersFromFuelConsumption(filteredData, 1);
+[filteredData emissionData.foundOutliers] = RemoveOutliersFromCoEmissions(carEmissionsDataset, 0);
+[filteredData emissionData.foundOutliers] = RemoveOutliersFromFuelConsumption(filteredData, 0);
 carEmissionsDatasetMatrix = filteredData{:, [10, 12:19]};
 [idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 2);
 figure(15);
