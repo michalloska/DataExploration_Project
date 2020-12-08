@@ -255,6 +255,7 @@ print(['-f' num2str(14)],[imgSavePath num2str(14) '_' 'Japanese vs German Cars']
 [filteredData emissionData.foundOutliers] = RemoveOutliersFromFuelConsumption(filteredData, 0);
 carEmissionsDatasetMatrix = filteredData{:, [10, 12:19]};
 [idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 2);
+filteredDataClusters = [table(idx) filteredData];
 figure(15);
 plot(carEmissionsDatasetMatrix(idx==1,1),carEmissionsDatasetMatrix(idx==1,2),'r.','MarkerSize',8)
 hold on
@@ -268,6 +269,7 @@ print(['-f' num2str(15)],[imgSavePath num2str(15) '_' 'General Cluster with engi
 
 carEmissionsDatasetMatrix = carEmissionsDataset{:, [12:19]};
 [idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 2);
+filteredDataClusters_f16 = [table(idx) filteredData];
 figure(16);
 plot(carEmissionsDatasetMatrix(idx==1,1),carEmissionsDatasetMatrix(idx==1,2),'r.','MarkerSize',8)
 hold on
@@ -281,25 +283,27 @@ print(['-f' num2str(16)],[imgSavePath num2str(16) '_' 'General Cluster WITHOUT e
 
 
 carEmissionsDatasetMatrix = normalize(carEmissionsDataset{:, [10, 14, 21]}, 'range',[0,1]);
-[idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 3);
+[idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 2);
+filteredDataClusters_f17 = [table(idx) filteredData];
 figure(17);
 plot(carEmissionsDatasetMatrix(idx==1,1),carEmissionsDatasetMatrix(idx==1,2),'r.','MarkerSize',8)
 hold on
 plot(carEmissionsDatasetMatrix(idx==2,1),carEmissionsDatasetMatrix(idx==2,2),'b.','MarkerSize',8)
-plot(carEmissionsDatasetMatrix(idx==3,1),carEmissionsDatasetMatrix(idx==3,2),'g.','MarkerSize',8)
+% plot(carEmissionsDatasetMatrix(idx==3,1),carEmissionsDatasetMatrix(idx==3,2),'g.','MarkerSize',8)
 % plot(carEmissionsDatasetMatrix(idx==4,1),carEmissionsDatasetMatrix(idx==4,2),'y.','MarkerSize',8)
 title("Engine Capacity vs Fuel Consumption")
 plot(C(:,1),C(:,2),'kx', 'MarkerSize',15,'LineWidth',3)
 xlabel("Engine Capacity [cm^3]")
 ylabel("Fuel Consumption")
 % legend('Cluster 1','Cluster 2', 'Cluster 3', 'Cluster 4','Centroids',...
-legend('Cluster 1','Cluster 2', 'Cluster 3', 'Centroids',...
+legend('Cluster 1','Cluster 2', 'Centroids',...
 'Location','NW')
 hold off
 print(['-f' num2str(17)],[imgSavePath num2str(17) '_' 'Engine Capacity vs Fuel Consumption'],'-dpng');
 
 carEmissionsDatasetMatrix = normalize(carEmissionsDataset{:, [10, 14, 21]});
 [idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 4);
+filteredDataClusters_f18f19 = [table(idx) filteredData];
 figure(18);
 plot(carEmissionsDatasetMatrix(idx==1,1),carEmissionsDatasetMatrix(idx==1,3),'r.','MarkerSize',8)
 hold on
