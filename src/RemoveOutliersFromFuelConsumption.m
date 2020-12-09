@@ -1,4 +1,4 @@
-function [filteredData, foundOutliers] = RemoveOutliersFromCoEmissions(dataset, trueSigma)
+function [filteredData, foundOutliers] = RemoveOutliersFromFuelConsumption(dataset, trueSigma)
     fuel_consumption_column_number = 14;
     foundOutliers = [];
     filteredData = dataset;
