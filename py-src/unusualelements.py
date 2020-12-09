@@ -13,4 +13,5 @@ if __name__ == '__main__':
 
     # unusual elements detection
     helper.print_unusual_elements_in_column(data, 'engine_capacity', sigmas=6) # 6-sigma
-    helper.print_unusual_elements_in_column(data, 'combined_metric', sigmas=6) # 6-sigma 
+    helper.print_unusual_elements_in_column(data, 'combined_metric', sigmas=6) # 6-sigma
+    helper.print_unusual_elements_in_column(data, 'co_emissions', sigmas=3) # 3-sigma 

@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from scipy.cluster.hierarchy import dendrogram
 
 def get_string_columns_headers(data):
     string_columns = []
@@ -33,6 +34,35 @@ def find_unusual_elements_in_column(data, column_name, sigmas=3):
     std_deviation_value = column.std()
     unusual_elements = data.loc[abs(data[column_name] - mean_value) > sigmas * std_deviation_value]
     return unusual_elements
+
+def plot_dendrogram(model, **kwargs):
+    # Create linkage matrix and then plot the dendrogram
+
+    # create the counts of samples under each node
+    counts = np.zeros(model.children_.shape[0])
+    n_samples = len(model.labels_)
+    for i, merge in enumerate(model.children_):
+        current_count = 0
+        for child_idx in merge:
+            if child_idx < n_samples:
+                current_count += 1  # leaf node
+            else:
+                current_count += counts[child_idx - n_samples]
+        counts[i] = current_count
+
+    linkage_matrix = np.column_stack([model.children_, model.distances_,
+                                      counts]).astype(float)
+
+    # Plot the corresponding dendrogram
+    dendrogram(linkage_matrix, **kwargs)
+
+def normalize(df):
+    result = df.copy()
+    for feature_name in df.columns:
+        max_value = df[feature_name].max()
+        min_value = df[feature_name].min()
+        result[feature_name] = (df[feature_name] - min_value) / (max_value - min_value)
+    return result
 
 if __name__ == '__main__':
     pass
