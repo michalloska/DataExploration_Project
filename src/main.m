@@ -301,6 +301,18 @@ legend('Cluster 1','Cluster 2', 'Centroids',...
 hold off
 print(['-f' num2str(17)],[imgSavePath num2str(17) '_' 'Engine Capacity vs Fuel Consumption'],'-dpng');
 
+
+% CLASIFICATION 3-dim 2-cl
+
+conf_mtx = testClassification(carEmissionsDatasetMatrix, idx, C, 10000, 10);
+figure(20);
+heatmap(100 * conf_mtx ./ sum(conf_mtx, 'all'));
+xlabel('Actual cluster');
+ylabel('Classified cluster');
+title('CM 3-dim classification - 2 clusters');
+colorbar off;
+print(['-f' num2str(20)],[imgSavePath num2str(20) '_' 'CM_classification_3-dim_2-cl'],'-dpng');
+
 carEmissionsDatasetMatrix = normalize(carEmissionsDataset{:, [10, 14, 21]});
 [idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 4);
 filteredDataClusters_f18f19 = [table(idx) filteredData];
@@ -321,7 +333,7 @@ print(['-f' num2str(18)],[imgSavePath num2str(18) '_' 'Engine Capacity vs CO Emi
 
 % carEmissionsDatasetMatrix = normalize(carEmissionsDataset{:, [10, 14, 21]});
 % [idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 3);
-figure(19);
+figure(21);
 plot(carEmissionsDatasetMatrix(idx==1,2),carEmissionsDatasetMatrix(idx==1,3),'r.','MarkerSize',8)
 hold on
 plot(carEmissionsDatasetMatrix(idx==2,2),carEmissionsDatasetMatrix(idx==2,3),'b.','MarkerSize',8)
@@ -335,6 +347,23 @@ legend('Cluster 1','Cluster 2', 'Cluster 3', 'Cluster 4','Centroids',...
 'Location','NW')
 hold off
 print(['-f' num2str(19)],[imgSavePath num2str(19) '_' 'Fuel Consumption vs CO Emissions'],'-dpng');
+
+
+% CLASIFICATION 3-dim 4-cl
+
+conf_mtx = testClassification(carEmissionsDatasetMatrix, idx, C, 10000, 10);
+figure(21);
+heatmap(100 * conf_mtx ./ sum(conf_mtx, 'all'));
+xlabel('Actual cluster');
+ylabel('Classified cluster');
+title('CM 3-dim classification - 4 clusters');
+colorbar off;
+print(['-f' num2str(21)],[imgSavePath num2str(21) '_' 'CM_classification_3-dim_4-cl'],'-dpng');
+
+
+% Check Silhouette eval value for oprimal num of Clusters
+eva = evalclusters(carEmissionsDatasetMatrix(:,:),'kmeans', 'Silhouette', 'KList',[1:10]);
+display(['Optimal num of Clusters calc by Silhouette eval: ' num2str(eva.OptimalK)]);
 
 function clfall
     FigList = findall(groot, 'Type', 'figure');
