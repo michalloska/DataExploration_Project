@@ -333,7 +333,7 @@ print(['-f' num2str(18)],[imgSavePath num2str(18) '_' 'Engine Capacity vs CO Emi
 
 % carEmissionsDatasetMatrix = normalize(carEmissionsDataset{:, [10, 14, 21]});
 % [idx, C] = kmeans(carEmissionsDatasetMatrix(:,:), 3);
-figure(21);
+figure(19);
 plot(carEmissionsDatasetMatrix(idx==1,2),carEmissionsDatasetMatrix(idx==1,3),'r.','MarkerSize',8)
 hold on
 plot(carEmissionsDatasetMatrix(idx==2,2),carEmissionsDatasetMatrix(idx==2,3),'b.','MarkerSize',8)
@@ -362,7 +362,7 @@ print(['-f' num2str(21)],[imgSavePath num2str(21) '_' 'CM_classification_3-dim_4
 
 
 % Check Silhouette eval value for oprimal num of Clusters
-eva = evalclusters(carEmissionsDatasetMatrix(:,:),'kmeans', 'Silhouette', 'KList',[1:10]);
+eva = evalclusters(carEmissionsDatasetMatrix(:,:),'kmeans', 'Silhouette', 'KList', [1:10]);
 display(['Optimal num of Clusters calc by Silhouette eval: ' num2str(eva.OptimalK)]);
 
 function clfall
