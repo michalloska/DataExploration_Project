@@ -1,3 +1,5 @@
+*.tmp
+
 ### IDE files ###
 .idea/
 .vscode
