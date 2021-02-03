@@ -1,5 +1,20 @@
 # DataExploration_Project
+This is a University project in which we have analysed Car Emissions and Economy with a given dataset from Kaggle.
 
+Dataset: https://www.kaggle.com/mrmorj/car-fuel-emissions
+
+## Conducted Operations
+- Data filtering 
+  - outliers detection
+  - incorrect data detection
+- Presentation of the CO2 emissions for all cars
+- Comparison of Fuel Consumption for different car engine sizes and fuel types
+- Presentation of the outlier and incorrect data
+- Dimensionality reduction to 2D (PCA)
+- KNN Clusterization
+- Classification (Naive Bayes and KNN)
+- Confusion Matrix
+  
 ## System Requirements
 - `MATLAB_R2020b`
 
@@ -7,14 +22,3 @@
 
 * **Adrian Wysocki** - [theratty](https://github.com/theratty)
 * **Michał Loska** - [michalloska](https://github.com/michalloska)
-
-## TODO
-
-* Ktore samochody sa eko
-* jak pojemnosc wplywa na zanieczyszczenia
-* jak moc wplywa na zanieczyszczenia
-* jak marka wplywa na zanieczyszczenia
-* jak samochody z danego kraju wplywaja na zanieczyszczenia
-* zakres cenowy a zanieczyszcenia
-* tani francuz vs drogi niemiec
-* VW blizej do audi czy np. peugeota?
